@@ -72,7 +72,6 @@ public class UserController {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());
         return "auth/users";
-
     }
 
     @GetMapping("/user/role/add/{user_id}/{role_id}")
@@ -87,4 +86,6 @@ public class UserController {
         return "auth/users";
 
     }
+
+
 }

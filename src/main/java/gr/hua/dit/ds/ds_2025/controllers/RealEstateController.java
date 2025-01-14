@@ -27,8 +27,8 @@ public class RealEstateController {
     @GetMapping("/{id}")
     public String showRealEstate(@PathVariable Integer id, Model model){
         RealEstate realestate = realEstateService.getRealEstate(id);
-        model.addAttribute("realestates", realestate);
-        return "realestate/realestates";
+        model.addAttribute("realestate", realestate);
+        return "realestate/tenancy";
     }
 
     @GetMapping("/new")
@@ -49,5 +49,46 @@ public class RealEstateController {
             model.addAttribute("successMessage", "Real Estate added successfully!");
             return "realestate/realestates";
         }
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realEstateService.deleteRealEstate(realestate);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/rent/{id}")
+    public String rentRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realestate.setRented(true);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/rentout/{id}")
+    public String rentoutRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realestate.setRented(false);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        model.addAttribute("realestate", realestate);
+        return "realestate/edit";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateRealEstate(@PathVariable Integer id, @Valid @ModelAttribute("realestate") RealEstate realestate, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "realestate/edit";
+        }
+        realEstateService.updateRealEstate(realestate);
+        model.addAttribute("realestate", realestate);
+        return "realestate/tenancy";
     }
 }

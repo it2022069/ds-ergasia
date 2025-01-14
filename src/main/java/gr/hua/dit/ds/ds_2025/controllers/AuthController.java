@@ -17,9 +17,14 @@ public class AuthController {
 
     @PostConstruct
     public void setup() {
-        Role role_admin = new Role("ROLE_ADMIN");
+        Role role_user = new Role("ROLE_USER");
+        roleRepository.updateOrInsert(role_user);
 
+        Role role_admin = new Role("ROLE_ADMIN");
         roleRepository.updateOrInsert(role_admin);
+
+        Role role_owner = new Role("ROLE_OWNER");
+        roleRepository.updateOrInsert(role_owner);
     }
 
     @GetMapping("/login")

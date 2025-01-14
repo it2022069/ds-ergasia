@@ -31,8 +31,13 @@ public class RealEstateService {
         return realEstateRepository.findById(realEstateId).get();
     }
 
-//    @Transactional
-//    public void deleteRealEstate(RealEstate realEstate) {
-//        realEstateRepository.delete(realEstate);
-//    }
+    @Transactional
+    public void deleteRealEstate(RealEstate realEstate) {
+        realEstateRepository.delete(realEstate);
+    }
+
+    @Transactional
+    public void updateRealEstate(RealEstate realEstate) {
+        realEstateRepository.save(realEstate);
+    }
 }
