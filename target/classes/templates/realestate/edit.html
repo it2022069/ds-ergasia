@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Real Estates</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <form action="#" th:action="@{/realestate/edit/{id}(id=${realestate.id})}" th:object="${realestate}"
+          method="post">
+
+        <div class="form-group">
+            <input type="hidden" id="city" name="city" th:field="*{city}">
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" id="address" name="address" th:field="*{address}">
+        </div>
+
+        <div class="form-group">
+            <label for="category">Category of Property:</label>
+            <select id="category" name="category" th:field="*{category}">
+                <option value="Residence">Residence</option>
+                <option value="Professional Area">Professional Area</option>
+                <option value="Earth">Earth</option>
+                <option value="Parking">Parking</option>
+            </select>
+        </div>
+
+        <!--  <div class="form-group" th:if="${realestate.category == 'residence'}">-->
+        <!--    <label for="type_residence">Type of Property:</label>-->
+        <!--    <select id="type_residence" name="type_residence">-->
+        <!--      <option value="Apartment">Apartment</option>-->
+        <!--      <option value="Villa ">Villa</option>-->
+        <!--      <option value="Maisonette">Maisonette</option>-->
+        <!--      <option value="Block of flats">Block of flats</option>-->
+        <!--    </select>-->
+        <!--  </div>-->
+
+        <!--  <div class="form-group" th:if="${realestate.category == 'profession_area'}">-->
+        <!--    <label for="type_profession_area">Type of Property:</label>-->
+        <!--    <select id="type_profession_area" name="type_profession_area">-->
+        <!--      <option value="Operation">Operation</option>-->
+        <!--      <option value="Office ">Office</option>-->
+        <!--      <option value="Building">Building</option>-->
+        <!--      <option value="Hotel">Hotel</option>-->
+        <!--    </select>-->
+        <!--  </div>-->
+
+        <!--  <div class="form-group" th:if="${realestate.category == 'earth'}">-->
+        <!--    <label for="type_earth">Type of Property:</label>-->
+        <!--    <select id="type_earth" name="type_earth">-->
+        <!--      <option value="Plot">Plot</option>-->
+        <!--      <option value="Island ">Island</option>-->
+        <!--      <option value="Parcel of land">Parcel of land</option>-->
+        <!--    </select>-->
+        <!--  </div>-->
+
+        <!--  <div class="form-group" th:if="${realestate.category == 'parking'}">-->
+        <!--    <label for="type_parking">Type of Property:</label>-->
+        <!--    <select id="type_parking" name="type_parking">-->
+        <!--      <option value="Parking">Parking</option>-->
+        <!--    </select>-->
+        <!--  </div>-->
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" id="description" class="form-control" th:field="*{description}">
+        </div>
+
+        <div class="form-group">
+            <label for="size">Size</label>
+            <input type="number" id="size" class="form-control" th:field="*{size}">
+            <span th:if="${#fields.hasErrors('size')}" th:errors="*{size}" th:errorclass="error">/span>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" id="price" class="form-control" th:field="*{price}">
+            <span th:if="${#fields.hasErrors('price')}" th:errors="*{price}" th:errorclass="error">/span>
+        </div>
+
+        <div class="form-group">
+            <input type="hidden" id="rented" name="rented" th:field="*{rented}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+</div>
+</body>
+</html>
