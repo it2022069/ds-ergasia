@@ -27,7 +27,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="realestate : ${realestates}">
+            <tr th:each="realestate : ${realestates}" th:if="${realestate.status == true}">
                 <td th:text="${realestate.city}"></td>
                 <td th:text="${realestate.address}"></td>
                 <td th:text="${realestate.category}"></td>
@@ -37,7 +37,7 @@
                 <td th:text="${realestate.rented}"></td>
                 <td>
                     <a class="btn btn-outline-primary btn-sm" th:href="@{'/realestate/' + ${realestate.id}}">Details</a>
-                    <a class="btn btn-danger" th:href="@{'/realestate/delete/' + ${realestate.id}}">Delete</a>
+                    <a sec:authorize="hasRole('ROLE_OWNER')" class="btn btn-danger" th:href="@{'/realestate/delete/' + ${realestate.id}}">Delete</a>
                 </td>
             </tr>
             </tbody>
@@ -46,7 +46,7 @@
     <div th:if="${ #lists.isEmpty(realestates)}">
         No Real Estates found!
     </div>
-    <a href="/realestate/new" class="btn btn-primary" role="button">Create new Real Estate</a>
+    <a sec:authorize="hasRole('ROLE_OWNER')" href="/realestate/new" class="btn btn-primary" role="button">Add new Real Estate</a>
 </div>
 </body>
 </html>

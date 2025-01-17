@@ -15,7 +15,8 @@
         <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/" data-path="/" >Home</a>
             <a class="nav-link" href="/realestate" data-path="/realestate">RealEstates</a>
-            <a sec:authorize="hasRole('ROLE_OWNER')" class="nav-link" href="/users">My RealEstates</a>
+            <a sec:authorize="hasRole('ROLE_OWNER')" class="nav-link" href="/owner" data-path="/owner">My RealEstates</a>
+            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/realestate/shownotapproved" data-path="/realestate/shownotapproved">Approve RealEstates</a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/users">Users</a>
             </a>
             <a sec:authorize="!isAuthenticated()"  class="nav-link">

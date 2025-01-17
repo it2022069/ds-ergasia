@@ -19,6 +19,9 @@ public class Owner {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "username")
+    private String username;
+
     @Column(name = "email")
     private String email;
 
@@ -34,10 +37,11 @@ public class Owner {
         this.realEstate = realEstate;
     }
 
-    public Owner(Integer id, String firstName, String lastName, String email) {
+    public Owner(Integer id, String firstName, String lastName,String username, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.email = email;
     }
 
@@ -69,6 +73,14 @@ public class Owner {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -83,7 +95,9 @@ public class Owner {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
+                ", realEstate=" + realEstate +
                 '}';
     }
 }

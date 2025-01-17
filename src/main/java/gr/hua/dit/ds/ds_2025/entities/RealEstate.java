@@ -40,6 +40,9 @@ public class RealEstate {
     @Column
     Boolean rented=false;
 
+    @Column
+    Boolean status=false;
+
     @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
     @JoinColumn(name = "owner_id")
@@ -129,6 +132,14 @@ public class RealEstate {
         this.rented = rented;
     }
 
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "RealEstate{" +
@@ -140,6 +151,8 @@ public class RealEstate {
                 ", size=" + size +
                 ", price=" + price +
                 ", rented=" + rented +
+                ", status=" + status +
+                ", owner=" + owner +
                 '}';
     }
 }

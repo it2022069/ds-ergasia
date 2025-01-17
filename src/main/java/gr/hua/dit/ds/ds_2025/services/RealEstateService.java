@@ -1,5 +1,6 @@
 package gr.hua.dit.ds.ds_2025.services;
 
+import gr.hua.dit.ds.ds_2025.entities.Owner;
 import gr.hua.dit.ds.ds_2025.entities.RealEstate;
 import gr.hua.dit.ds.ds_2025.repositories.RealEstateRepository;
 import jakarta.transaction.Transactional;

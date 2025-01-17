@@ -91,4 +91,18 @@ public class RealEstateController {
         model.addAttribute("realestate", realestate);
         return "realestate/tenancy";
     }
+
+    @GetMapping("/shownotapproved")
+    public String showNotApprovedRealEstates(Model model) {
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/notapproved";
+    }
+
+    @GetMapping("/approve/{id}")
+    public String approveRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realestate.setStatus(true);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/notapproved";
+    }
 }
