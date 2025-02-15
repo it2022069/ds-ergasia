@@ -5,12 +5,17 @@ import gr.hua.dit.ds.ds_2025.entities.User;
 import gr.hua.dit.ds.ds_2025.repositories.RoleRepository;
 import gr.hua.dit.ds.ds_2025.repositories.UserRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -79,12 +84,23 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public Object getUser(Long userId) {
+    public User getUser(Integer userId) {
         return userRepository.findById(userId).get();
     }
 
     @Transactional
     public void updateOrInsertRole(Role role) {
         roleRepository.updateOrInsert(role);
+    }
+
+    @Transactional
+    public Integer getCurrentUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()  || authentication instanceof AnonymousAuthenticationToken) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User is not authenticated.");
+        }
+        User user = (User) userRepository.findByEmail(authentication.getName())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found: " + authentication.getName()));
+        return user.getId();
     }
 }

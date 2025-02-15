@@ -2,19 +2,25 @@ package gr.hua.dit.ds.ds_2025.controllers;
 
 import gr.hua.dit.ds.ds_2025.entities.RealEstate;
 import gr.hua.dit.ds.ds_2025.services.RealEstateService;
+import gr.hua.dit.ds.ds_2025.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import static gr.hua.dit.ds.ds_2025.entities.Rented.*;
+
 @Controller
 @RequestMapping("realestate")
 public class RealEstateController {
 
+    private UserService userService;
+
     private RealEstateService realEstateService;
 
-    public RealEstateController(RealEstateService realEstateService) {
+    public RealEstateController(UserService userService, RealEstateService realEstateService) {
+        this.userService = userService;
         this.realEstateService = realEstateService;
     }
 
@@ -44,6 +50,7 @@ public class RealEstateController {
             System.out.println("error");
             return "realestate/realestate";
         } else {
+            realestate.setUser(userService.getUser(userService.getCurrentUserId()));
             realEstateService.saveRealEstate(realestate);
             model.addAttribute("realestates", realEstateService.getRealEstates());
             model.addAttribute("successMessage", "Real Estate added successfully!");
@@ -62,7 +69,7 @@ public class RealEstateController {
     @GetMapping("/rent/{id}")
     public String rentRealEstate(@PathVariable Integer id, Model model){
         RealEstate realestate = realEstateService.getRealEstate(id);
-        realestate.setRented(true);
+        realestate.setRented(In_Progress);
         model.addAttribute("realestates", realEstateService.getRealEstates());
         return "realestate/realestates";
     }
@@ -70,7 +77,7 @@ public class RealEstateController {
     @GetMapping("/rentout/{id}")
     public String rentoutRealEstate(@PathVariable Integer id, Model model){
         RealEstate realestate = realEstateService.getRealEstate(id);
-        realestate.setRented(false);
+        realestate.setRented(No);
         model.addAttribute("realestates", realEstateService.getRealEstates());
         return "realestate/realestates";
     }
@@ -87,9 +94,11 @@ public class RealEstateController {
         if (result.hasErrors()) {
             return "realestate/edit";
         }
+        realestate.setStatus(false);
+        realestate.setUser(userService.getUser(userService.getCurrentUserId()));
         realEstateService.updateRealEstate(realestate);
         model.addAttribute("realestate", realestate);
-        return "realestate/tenancy";
+        return "realestate/owner";
     }
 
     @GetMapping("/shownotapproved")
@@ -104,5 +113,35 @@ public class RealEstateController {
         realestate.setStatus(true);
         model.addAttribute("realestates", realEstateService.getRealEstates());
         return "realestate/notapproved";
+    }
+
+    @GetMapping("/shownotrented")
+    public String showNotRentedRealEstates(Model model) {
+        Integer id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(id).getRealEstates());
+        return "realestate/notrented";
+    }
+
+    @GetMapping("/accept/rent/{id}")
+    public String acceptRentRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realestate.setRented(Yes);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/decline/rent/{id}")
+    public String declineRentRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realestate.setRented(No);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/owner")
+    public String showOwnerRealEstates(Model model) {
+        Integer id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(id).getRealEstates());
+        return "realestate/owner";
     }
 }

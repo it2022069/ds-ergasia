@@ -3,6 +3,11 @@ package gr.hua.dit.ds.ds_2025.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static gr.hua.dit.ds.ds_2025.entities.Rented.No;
+
 @Entity
 public class RealEstate {
 
@@ -37,23 +42,23 @@ public class RealEstate {
     @Column
     Integer price;
 
-    @Column
-    Boolean rented=false;
+    @Enumerated
+    Rented rented=No;
 
     @Column
     Boolean status=false;
 
     @ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE,
             CascadeType.DETACH, CascadeType.REFRESH})
-    @JoinColumn(name = "owner_id")
-    private Owner owner;
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Owner getOwner() {
-        return owner;
+    public User getUser() {
+        return user;
     }
 
-    public void setOwner(Owner owner) {
-        this.owner = owner;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public RealEstate(String city, String address, String category, String description, Integer size, Integer price) {
@@ -124,11 +129,11 @@ public class RealEstate {
         this.price = price;
     }
 
-    public Boolean getRented() {
+    public Rented getRented() {
         return rented;
     }
 
-    public void setRented(Boolean rented) {
+    public void setRented(Rented rented) {
         this.rented = rented;
     }
 
@@ -152,7 +157,7 @@ public class RealEstate {
                 ", price=" + price +
                 ", rented=" + rented +
                 ", status=" + status +
-                ", owner=" + owner +
+                ", user=" + user +
                 '}';
     }
 }

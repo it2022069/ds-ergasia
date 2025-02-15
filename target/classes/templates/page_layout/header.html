@@ -11,11 +11,12 @@
 
 <header class="masthead mb-auto" th:fragment="header">
     <div class="inner">
-        <h3 class="masthead-brand">Cover</h3>
+        <h3 class="masthead-brand">RealEstates</h3>
         <nav class="nav nav-masthead justify-content-center">
             <a class="nav-link" href="/" data-path="/" >Home</a>
             <a class="nav-link" href="/realestate" data-path="/realestate">RealEstates</a>
-            <a sec:authorize="hasRole('ROLE_OWNER')" class="nav-link" href="/owner" data-path="/owner">My RealEstates</a>
+            <a sec:authorize="hasRole('ROLE_OWNER')" class="nav-link" href="/realestate/owner" data-path="/realestate/owner">My RealEstates</a>
+            <a sec:authorize="hasRole('ROLE_OWNER')" class="nav-link" href="/realestate/shownotrented" data-path="/realestate/shownotrented">Approve Rents</a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/realestate/shownotapproved" data-path="/realestate/shownotapproved">Approve RealEstates</a>
             <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/users">Users</a>
             </a>

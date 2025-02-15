@@ -36,10 +36,8 @@
         <td th:text="${realestate.price}"></td>
         <td th:text="${realestate.rented}"></td>
         <td>
-          <a th:if="${!realestate.rented}" th:href="@{'/realestate/rent/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent</a>
-          <a th:if="${realestate.rented}" th:href="@{'/realestate/rentout/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent Out</a>
-          <a sec:authorize="hasRole('ROLE_OWNER')" class="btn btn-outline-primary btn-sm" th:href="@{'/realestate/edit/' + ${realestate.id}}">Edit</a>
-          <a sec:authorize="hasRole('ROLE_OWNER')" class="btn btn-danger" th:href="@{'/realestate/delete/' + ${realestate.id}}">Delete</a>
+          <a th:if="${realestate.rented == T(gr.hua.dit.ds.ds_2025.entities.Rented).No}" th:href="@{'/realestate/rent/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent</a>
+          <a th:if="${realestate.rented == T(gr.hua.dit.ds.ds_2025.entities.Rented).Yes}" th:href="@{'/realestate/rentout/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent Out</a>
         </td>
       </tr>
       </tbody>

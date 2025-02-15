@@ -28,7 +28,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="realestate : ${realestates}">
+            <tr th:each="realestate : ${realestates}" th:if="${realestate.rented == T(gr.hua.dit.ds.ds_2025.entities.Rented).In_Progress}">
                 <td th:text="${realestate.city}"></td>
                 <td th:text="${realestate.address}"></td>
                 <td th:text="${realestate.category}"></td>
@@ -38,8 +38,8 @@
                 <td th:text="${realestate.rented}"></td>
                 <td th:text="${realestate.status}"></td>
                 <td>
-                    <a sec:authorize="hasRole('ROLE_OWNER')" class="btn btn-outline-primary btn-sm" th:href="@{'/realestate/edit/' + ${realestate.id}}">Edit</a>
-                    <a class="btn btn-danger" th:href="@{'/realestate/delete/' + ${realestate.id}}">Delete</a>
+                    <a class="btn btn-success" th:href="@{'/realestate/accept/rent/' + ${realestate.id}}">Accept</a>
+                    <a class="btn btn-danger" th:href="@{'/realestate/decline/rent/' + ${realestate.id}}">Decline</a>
                 </td>
             </tr>
             </tbody>
@@ -48,7 +48,6 @@
     <div th:if="${ #lists.isEmpty(realestates)}">
         No Real Estates found!
     </div>
-    <a href="/realestate/new" class="btn btn-primary" role="button">Add new Real Estate</a>
 </div>
 </body>
 </html>

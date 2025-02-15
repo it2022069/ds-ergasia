@@ -6,10 +6,7 @@ import gr.hua.dit.ds.ds_2025.repositories.RoleRepository;
 import gr.hua.dit.ds.ds_2025.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -47,13 +44,13 @@ public class UserController {
     }
 
     @GetMapping("/user/{user_id}")
-    public String showUser(@PathVariable Long user_id, Model model){
+    public String showUser(@PathVariable Integer user_id, Model model){
         model.addAttribute("user", userService.getUser(user_id));
         return "auth/user";
     }
 
     @PostMapping("/user/{user_id}")
-    public String saveStudent(@PathVariable Long user_id, @ModelAttribute("user") User user, Model model) {
+    public String editUser(@PathVariable Integer user_id, @ModelAttribute("user") User user, Model model) {
         User the_user = (User) userService.getUser(user_id);
         the_user.setEmail(user.getEmail());
         the_user.setUsername(user.getUsername());
@@ -63,7 +60,7 @@ public class UserController {
     }
 
     @GetMapping("/user/role/delete/{user_id}/{role_id}")
-    public String deleteRolefromUser(@PathVariable Long user_id, @PathVariable Integer role_id, Model model){
+    public String deleteRolefromUser(@PathVariable Integer user_id, @PathVariable Integer role_id, Model model){
         User user = (User) userService.getUser(user_id);
         Role role = roleRepository.findById(role_id).get();
         user.getRoles().remove(role);
@@ -75,7 +72,7 @@ public class UserController {
     }
 
     @GetMapping("/user/role/add/{user_id}/{role_id}")
-    public String addRoletoUser(@PathVariable Long user_id, @PathVariable Integer role_id, Model model){
+    public String addRoletoUser(@PathVariable Integer user_id, @PathVariable Integer role_id, Model model){
         User user = (User) userService.getUser(user_id);
         Role role = roleRepository.findById(role_id).get();
         user.getRoles().add(role);
@@ -84,8 +81,5 @@ public class UserController {
         model.addAttribute("users", userService.getUsers());
         model.addAttribute("roles", roleRepository.findAll());
         return "auth/users";
-
     }
-
-
 }
