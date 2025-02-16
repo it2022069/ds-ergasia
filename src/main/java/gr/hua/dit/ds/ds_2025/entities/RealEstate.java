@@ -3,9 +3,6 @@ package gr.hua.dit.ds.ds_2025.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static gr.hua.dit.ds.ds_2025.entities.Rented.No;
 
 @Entity

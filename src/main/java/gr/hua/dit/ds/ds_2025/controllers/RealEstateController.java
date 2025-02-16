@@ -52,9 +52,9 @@ public class RealEstateController {
         } else {
             realestate.setUser(userService.getUser(userService.getCurrentUserId()));
             realEstateService.saveRealEstate(realestate);
-            model.addAttribute("realestates", realEstateService.getRealEstates());
-            model.addAttribute("successMessage", "Real Estate added successfully!");
-            return "realestate/realestates";
+            Integer user_id = userService.getCurrentUserId();
+            model.addAttribute("realestates",userService.getUser(user_id).getRealEstates());
+            return "realestate/owner";
         }
     }
 
@@ -62,8 +62,9 @@ public class RealEstateController {
     public String deleteRealEstate(@PathVariable Integer id, Model model){
         RealEstate realestate = realEstateService.getRealEstate(id);
         realEstateService.deleteRealEstate(realestate);
-        model.addAttribute("realestates", realEstateService.getRealEstates());
-        return "realestate/realestates";
+        Integer user_id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(user_id).getRealEstates());
+        return "realestate/owner";
     }
 
     @GetMapping("/rent/{id}")
@@ -97,7 +98,8 @@ public class RealEstateController {
         realestate.setStatus(false);
         realestate.setUser(userService.getUser(userService.getCurrentUserId()));
         realEstateService.updateRealEstate(realestate);
-        model.addAttribute("realestate", realestate);
+        Integer user_id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(user_id).getRealEstates());
         return "realestate/owner";
     }
 
@@ -112,13 +114,21 @@ public class RealEstateController {
         RealEstate realestate = realEstateService.getRealEstate(id);
         realestate.setStatus(true);
         model.addAttribute("realestates", realEstateService.getRealEstates());
-        return "realestate/notapproved";
+        return "realestate/realestates";
+    }
+
+    @GetMapping("/decline/{id}")
+    public String declineRealEstate(@PathVariable Integer id, Model model){
+        RealEstate realestate = realEstateService.getRealEstate(id);
+        realEstateService.deleteRealEstate(realestate);
+        model.addAttribute("realestates", realEstateService.getRealEstates());
+        return "realestate/realestates";
     }
 
     @GetMapping("/shownotrented")
     public String showNotRentedRealEstates(Model model) {
-        Integer id = userService.getCurrentUserId();
-        model.addAttribute("realestates",userService.getUser(id).getRealEstates());
+        Integer user_id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(user_id).getRealEstates());
         return "realestate/notrented";
     }
 
@@ -140,8 +150,8 @@ public class RealEstateController {
 
     @GetMapping("/owner")
     public String showOwnerRealEstates(Model model) {
-        Integer id = userService.getCurrentUserId();
-        model.addAttribute("realestates",userService.getUser(id).getRealEstates());
+        Integer user_id = userService.getCurrentUserId();
+        model.addAttribute("realestates",userService.getUser(user_id).getRealEstates());
         return "realestate/owner";
     }
 }
