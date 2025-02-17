@@ -56,6 +56,7 @@ public class UserController {
         the_user.setUsername(user.getUsername()); // Θέτουμε το καινούριο username
         userService.updateUser(the_user); // Ενημερώνουμε τα στοιχεία του χρήστη
         model.addAttribute("users", userService.getUsers()); // Προσθέτουμε τους χρήστες στο model
+        model.addAttribute("roles", roleRepository.findAll()); // Προσθέτουμε τους ρόλους στο model
         return "auth/users"; // Επιστρέφουμε το κατάλληλο template
     }
 
