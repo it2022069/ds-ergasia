@@ -36,7 +36,7 @@
         <td th:text="${realestate.rented}"></td>
         <td>
           <a th:if="${realestate.rented == T(gr.hua.dit.ds.ds_2025.entities.Rented).No}" th:href="@{'/realestate/rent/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent</a>
-          <a th:if="${realestate.rented == T(gr.hua.dit.ds.ds_2025.entities.Rented).Yes}" th:href="@{'/realestate/rentout/' + ${realestate.id}}" class="btn btn-primary" role="button">Rent Out</a>
+          <a th:if="${realestate.rented != T(gr.hua.dit.ds.ds_2025.entities.Rented).No}" class="btn btn-outline-primary btn-sm" th:href="@{'/realestate/' + ${realestate.id}}">Details</a>
         </td>
       </tr>
       </tbody>

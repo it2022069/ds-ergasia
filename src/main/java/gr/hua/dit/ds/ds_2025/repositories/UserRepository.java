@@ -7,9 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> { // Ένα repository που κάνει extend το JpaRepository που έχει έτοιμες μεθόδους
 
-    Optional<User> findByUsername(String username);
+    Optional<User> findByUsername(String username); // Μέθοδος που αναζητά έναν χρήστη με βάση το username
 
-    Optional<User> findByEmail(String email);
+    Optional<User> findByEmail(String email); // Μέθοδος που αναζητά έναν χρήστη με βάση το email
 }

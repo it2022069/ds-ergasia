@@ -16,31 +16,30 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
-    private UserService userService;
+    private UserService userService; // Ένα αντικείμενο τύπου UserService
 
-    private UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService; // Ένα αντικείμενο τύπου UserDetailsService
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder; // Ένα αντικείμενο τύπου BCryptPasswordEncoder για την κρυπτογράφηση του password
 
-    public SecurityConfig(UserService userService, UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) {
+    public SecurityConfig(UserService userService, UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) { // Constructor της κλάσης
         this.userService = userService;
         this.userDetailsService = userDetailsService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // Μέθοδος για την ασφάλεια της εφαρμογής
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home", "/register", "/saveUser", "/images/**", "/js/**", "/css/**").permitAll()
-                        .requestMatchers("/teacher/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/", "/home", "/register", "/saveUser", "/images/**", "/js/**", "/css/**").permitAll() // Αυτά τα templates εμφανίζονται σε όλους τους χρήστες χωρίς να χρειαστεί authentication
+                        .anyRequest().authenticated() // Οτιδήποτε άλλο χρειάζεται authentication
                 )
                 .formLogin((form) -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/realestate", true)
-                        .permitAll())
-                .logout((logout) -> logout.permitAll());
+                        .loginPage("/login") // Το template για το login
+                        .defaultSuccessUrl("/realestate", true) // Η σελίδα μετά το login
+                        .permitAll()) // Επιτρέπεται η είσοδος στη σελίδα του login σε όλους
+                .logout((logout) -> logout.permitAll()); // Η επιλογή logout είναι διαθέσιμη σε όλους
         return http.build();
     }
 

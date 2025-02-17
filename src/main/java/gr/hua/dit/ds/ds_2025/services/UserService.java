@@ -26,20 +26,20 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
 
 
-    private UserRepository userRepository;
+    private UserRepository userRepository; // Ένα αντικείμενο τύπου UserRepository
 
-    private RoleRepository roleRepository;
+    private RoleRepository roleRepository; // Ένα αντικείμενο τύπου RoleRepository
 
-    private BCryptPasswordEncoder passwordEncoder;
+    private BCryptPasswordEncoder passwordEncoder; // Ένα αντικείμενο τύπου BCryptPasswordEncoder για την κρυπτογράφηση του password
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) { // Constructor της κλάσης
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
-    public Integer saveUser(User user) {
+    public Integer saveUser(User user) { // Μέθοδος για την αποθήκευση ενός χρήστη
         String passwd= user.getPassword();
         String encodedPassword = passwordEncoder.encode(passwd);
         user.setPassword(encodedPassword);
@@ -55,13 +55,14 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Integer updateUser(User user) {
+    public Integer updateUser(User user) { // Μέθοδος που ενημερώνει τα στοιχεία του χρήστη
         user = userRepository.save(user);
         return user.getId();
     }
+
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException { // Μέθοδος που φορτώνει έναν χρήστη με βάση το username του
         Optional<User> opt = userRepository.findByUsername(username);
 
         if(opt.isEmpty())
@@ -80,21 +81,21 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public Object getUsers() {
+    public Object getUsers() { // Μέθοδος που επιστρέφει όλους τους χρήστες
         return userRepository.findAll();
     }
 
-    public User getUser(Integer userId) {
+    public User getUser(Integer userId) { // Μέθοδος που επιστρέφει έναν χρήστη με βάση το id
         return userRepository.findById(userId).get();
     }
 
     @Transactional
-    public void updateOrInsertRole(Role role) {
+    public void updateOrInsertRole(Role role) { // Μέθοδος που ενημερώνει έναν ρόλο
         roleRepository.updateOrInsert(role);
     }
 
     @Transactional
-    public Integer getCurrentUserId() {
+    public Integer getCurrentUserId() { // Μέθοδος που επιστρέφει το id του συνδεδεμένου χρήστη
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()  || authentication instanceof AnonymousAuthenticationToken) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "User is not authenticated.");

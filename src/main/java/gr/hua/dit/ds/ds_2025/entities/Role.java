@@ -8,37 +8,36 @@ public class Role {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id; // Το id του ρόλου που είναι πρωτεύον κλειδί και έχει μοναδική τιμή
 
     @Column(length = 20)
-    private String name;
+    private String name; // Τό όνομα του ρόλους που μπορεί να έχει τιμή, η οποία θα είναι το μέγιστο 20 γράμματα
 
-    public Role() {
-
+    public Role() { // Άδειoς constructor
     }
 
-    public Role(String name) {
+    public Role(String name) { // Constructor της κλάσης
         this.name = name;
     }
 
-    public Integer getId() {
+    public Integer getId() { // Getter για το id
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Integer id) { // Setter για το id
         this.id = id;
     }
 
-    public String getName() {
+    public String getName() { // Getter για το όνομα
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) { // Setter για το όνομα
         this.name = name;
     }
 
     @Override
-    public String toString() {
+    public String toString() { // Μία toString για να επιστρέφει σε συμβολοσειρά το όνομα του ρόλου
         return name;
     }
 }
